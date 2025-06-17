@@ -31,10 +31,7 @@ local opts = {
     capabilities = lsp_settings.capabilities,
     settings = {
       ["rust-analyzer"] = {
-        checkOnSave = {
-          command = "clippy",
-          extraArgs = {"--", "-A", "clippy::upper_case_acronyms"}, 
-        },
+        checkOnSave = true, -- Changed to boolean
         cargo = {
           allFeatures = true,
           loadOutDirsFromCheck = true,
@@ -42,7 +39,7 @@ local opts = {
         },
         procMacro = {
           enable = true,
-          ignored = {},
+          ignored = {}, -- Kept as {}, which is an empty map in Lua
         },
       },
     },

@@ -1,4 +1,5 @@
 -- ~/.config/nvim/lua/lsp.lua
+vim.api.nvim_create_augroup("LspFormat", { clear = true })
 local M = {} -- Module to hold settings to be returned/used by other modules
 
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }

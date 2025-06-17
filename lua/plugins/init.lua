@@ -45,13 +45,14 @@ return {
     config = function() require("rust") end,
   },
   {
-    "hrsh7th/nvim-cmp", event = "InsertEnter",
+    "hrsh7th/nvim-cmp",
+    event = "VeryLazy", -- Changed to VeryLazy
     dependencies = {
       "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip",
       "onsails/lspkind-nvim",
     },
-    config = function() vim.schedule(function() require("cmp") end) end,
+    config = function() require("cmp") end, -- Reverted to direct require
   },
   { "L3MON4D3/LuaSnip", dependencies = {"saadparwaiz1/cmp_luasnip"}, event = "InsertEnter" },
   { "onsails/lspkind-nvim", event = "InsertEnter" },
