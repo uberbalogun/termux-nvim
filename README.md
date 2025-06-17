@@ -1,10 +1,10 @@
 # Neovim Configuration for Rust Development in Termux
 
-This is a Neovim configuration tailored for Rust development on Android using Termux. It includes a suite of plugins for a modern and efficient development experience, managed by Packer.nvim.
+This is a Neovim configuration tailored for Rust development on Android using Termux. It includes a suite of plugins for a modern and efficient development experience, managed by **`folke/lazy.nvim`**.
 
 ## Features
 
-*   **Plugin Manager**: Uses `wbthomason/packer.nvim`.
+*   **Plugin Manager**: Uses **`folke/lazy.nvim`**.
 *   **Language Support**: Robust Rust support via `rust-tools.nvim` (integrating `rust-analyzer`).
 *   **Syntax Highlighting**: Provided by `nvim-treesitter` for various languages including Rust and Lua.
 *   **Autocompletion**: `nvim-cmp` with sources for LSP, snippets (`LuaSnip`), buffer, and path.
@@ -74,13 +74,17 @@ This is a Neovim configuration tailored for Rust development on Android using Te
     ```bash
     nvim
     ```
-    The first time you launch Neovim, Packer will automatically attempt to clone itself and then try to sync the plugins listed in `lua/plugins.lua`.
+    The first time you launch Neovim, **`lazy.nvim`** will automatically bootstrap itself (if not already present) and then process the plugin specifications found in `lua/plugins/`. It will download and set up all the configured plugins. You might see activity in the command line area as plugins are installed.
 
-3.  **Install Plugins**:
-    If the automatic sync doesn't fully complete or you need to manually manage plugins:
-    *   Run `:PackerSync` inside Neovim. This will install any missing plugins and update existing ones.
-    *   You might see errors if some plugins fail to download or build (e.g., tree-sitter parsers if `build-essential` was missing). Address these errors and run `:PackerSync` again.
-    *   Restart Neovim after the plugins are installed.
+3.  **Manage Plugins (with `lazy.nvim`)**:
+    *   **`lazy.nvim`** typically handles plugin installation and updates automatically on startup if changes are detected or new plugins are added.
+    *   You can open the `lazy.nvim` interface by running `:Lazy` inside Neovim. This allows you to see the status of your plugins, sync them, check for updates, etc.
+    *   Common commands:
+        *   `:Lazy sync`: Synchronizes your configuration (installs missing, cleans unused).
+        *   `:Lazy check`: Checks for updates.
+        *   `:Lazy update`: Updates plugins.
+        *   `:Lazy health`: Checks `lazy.nvim`'s status and your configuration.
+    *   Restart Neovim after any significant plugin changes if prompted or if you encounter issues.
 
 ## Termux Specific Notes
 
@@ -127,7 +131,11 @@ Explore `lua/options.lua` and the plugin configuration files (e.g., `lua/lsp.lua
 
 ## Troubleshooting
 
-*   **Plugins not loading**: Run `:PackerSync` and check for error messages. Restart Neovim.
+*   **Plugins not loading or errors on startup**:
+    *   Run `:Lazy` to open the management UI and check for errors.
+    *   Use `:Lazy sync` to try and reconcile your plugin state.
+    *   Check `:Lazy health` for diagnostic information.
+    *   Review Neovim's startup messages or logs (`nvim -V9 nvim.log`) for specific Lua errors.
 *   **Icons not showing**: Ensure you have set up a Nerd Font correctly in Termux settings and reloaded Termux settings.
 *   **`rust-analyzer` issues**: Check `:LspInfo` for status. `rust-tools.nvim` attempts to manage its installation. Ensure Rust itself is correctly installed.
 *   **Formatter issues (stylua, etc.)**: Make sure the respective CLI tools are installed in Termux and accessible in your `$PATH`. Check `:NullLsInfo`.
