@@ -23,18 +23,30 @@ end
 
 cmp.setup({
   enabled = function()
-    local context = require 'cmp.config.context'
-    if vim.api.nvim_get_mode().mode == 'c' then
-        return true
-    else
-        return not context.in_treesitter_capture("comment") 
-           and not context.in_syntax_group("Comment")
+    local success, result = pcall(function()
+      local context = require 'cmp.config.context'
+      if vim.api.nvim_get_mode().mode == 'c' then
+          return true
+      else
+          return not context.in_treesitter_capture("comment")
+             and not context.in_syntax_group("Comment")
+      end
+    end)
+    if not success then
+      vim.notify("Error in nvim-cmp enabled function: " .. tostring(result), vim.log.levels.ERROR)
+      return true -- Default to enabled, or false if preferred to disable cmp on error
     end
+    return result
   end,
   snippet = {
     expand = function(args)
       if luasnip then
-        luasnip.lsp_expand(args.body)
+        local success, err = pcall(luasnip.lsp_expand, args.body)
+        if not success then
+          vim.notify("Error in nvim-cmp snippet expansion: " .. tostring(err), vim.log.levels.ERROR)
+          -- Fallback to feedkeys if luasnip fails, or handle error differently
+          vim.fn.feedkeys(args.body, 'i')
+        end
       else
         vim.fn.feedkeys(args.body, 'i') 
       end
@@ -47,14 +59,20 @@ cmp.setup({
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), 
     ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip and luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback()
+      local success, err = pcall(function()
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif luasnip and luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        elseif has_words_before() then
+          cmp.complete()
+        else
+          fallback()
+        end
+      end)
+      if not success then
+        vim.notify("Error in nvim-cmp <Tab> mapping: " .. tostring(err), vim.log.levels.ERROR)
+        fallback() -- Ensure fallback is called if an error occurs
       end
     end, { "i", "s" }),
     ["<S-Tab>"] = cmp.mapping(function(fallback)
