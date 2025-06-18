@@ -45,5 +45,5 @@ lualine.setup({
   inactive_winbar = {},
   extensions = {'nvim-tree', 'toggleterm', 'quickfix'} 
 })
-vim.notify('Lualine configuration loaded', vim.log.levels.INFO, {title = 'Nvim Plugins'})
+--vim.notify('Lualine configuration loaded', vim.log.levels.INFO, {title = 'Nvim Plugins'})
 
