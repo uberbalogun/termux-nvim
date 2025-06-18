@@ -20,4 +20,4 @@ require("lazy").setup("plugins", {
   change_detection = { enabled = true, notify = true },
 })
 
-vim.notify("Neovim configuration with lazy.nvim loaded!", vim.log.levels.INFO, { title = "Nvim" })
+--vim.notify("Neovim configuration with lazy.nvim loaded!", vim.log.levels.INFO, { title = "Nvim" })
