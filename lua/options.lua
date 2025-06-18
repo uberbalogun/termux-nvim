@@ -89,5 +89,5 @@ else
   vim.notify("Skipping temporary <Space> to insert mode mapping as existing map(s) found for <Space> in normal mode.", vim.log.levels.WARN)
 end
 
-vim.notify("Neovim general options loaded.", vim.log.levels.INFO, { title = "Nvim Config" })
+--vim.notify("Neovim general options loaded.", vim.log.levels.INFO, { title = "Nvim Config" })
 
