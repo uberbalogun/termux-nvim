@@ -39,7 +39,6 @@ local opts = {
         },
         procMacro = {
           enable = true,
-          ignored = {}, -- Kept as {}, which is an empty map in Lua
         },
       },
     },
