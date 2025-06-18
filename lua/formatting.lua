@@ -15,12 +15,12 @@ local sources = {
     extra_args = {"--globals", "vim", "_G"},
   }),
   b.formatting.shfmt,
-  b.diagnostics.shellcheck,
+  require("none-ls-shellcheck.diagnostics"),
   b.formatting.prettier.with({ 
     filetypes = {"markdown", "json", "yaml", "html", "css", "javascript", "typescript"},
     prefer_local = "node_modules/.bin", 
   }),
-  b.formatting.taplo.with({ 
+  require("none-ls.formatting.taplo").with({
      extra_args = {"--option", "align_entries=true"}
   }),
 }

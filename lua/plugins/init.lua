@@ -61,7 +61,12 @@ return {
   },
   {
     "nvimtools/none-ls.nvim", event = "BufWritePre",
-    dependencies = { "nvim-lua/plenary.nvim", "gbprod/none-ls-luacheck.nvim" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "gbprod/none-ls-luacheck.nvim",
+      "gbprod/none-ls-shellcheck.nvim",
+      "nvimtools/none-ls-extras.nvim",
+    },
     config = function() require("formatting") end,
   },
 }
