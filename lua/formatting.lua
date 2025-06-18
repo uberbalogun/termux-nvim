@@ -20,9 +20,6 @@ local sources = {
     filetypes = {"markdown", "json", "yaml", "html", "css", "javascript", "typescript"},
     prefer_local = "node_modules/.bin", 
   }),
-  require("none-ls.formatting.taplo").with({
-     extra_args = {"--option", "align_entries=true"}
-  }),
 }
 
 local on_attach = function(client, bufnr)
