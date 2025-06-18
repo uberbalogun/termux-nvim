@@ -11,8 +11,8 @@ local sources = {
   b.formatting.stylua.with({
     extra_args = { "--config-path", vim.fn.stdpath("config") .. "/stylua.toml" }, 
   }),
-  b.diagnostics.luacheck.with({ 
-    extra_args = {"--globals", "vim", "_G"}, 
+  require("none-ls-luacheck.diagnostics.luacheck").with({
+    extra_args = {"--globals", "vim", "_G"},
   }),
   b.formatting.shfmt,
   b.diagnostics.shellcheck,
