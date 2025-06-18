@@ -109,5 +109,5 @@ nvim_tree.setup({
   },
 })
 
-vim.notify('NvimTree configuration loaded', vim.log.levels.INFO, {title = 'Nvim Plugins'})
+--vim.notify('NvimTree configuration loaded', vim.log.levels.INFO, {title = 'Nvim Plugins'})
 
