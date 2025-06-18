@@ -54,5 +54,5 @@ null_ls.setup({
   root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".git", "nvim/.git", ".hg", ".svn"),
 })
 
-vim.notify('Null-ls configuration loaded', vim.log.levels.INFO, {title = 'Nvim Plugins'})
+--vim.notify('Null-ls configuration loaded', vim.log.levels.INFO, {title = 'Nvim Plugins'})
 
