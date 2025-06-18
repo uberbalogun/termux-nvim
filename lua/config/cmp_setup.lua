@@ -141,4 +141,3 @@ if luasnip_status_ok then
   vim.notify("Luasnip is ready. Consider adding snippet sources.", vim.log.levels.INFO)
 end
 vim.notify('nvim-cmp configuration loaded', vim.log.levels.INFO, {title = 'Nvim Plugins'})
-

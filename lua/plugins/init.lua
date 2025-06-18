@@ -52,7 +52,7 @@ return {
       "hrsh7th/cmp-cmdline", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip",
       "onsails/lspkind-nvim",
     },
-    -- config = function() require("cmp") end, -- Commented out
+    config = function() require("config.cmp_setup") end,
   },
   { "L3MON4D3/LuaSnip", dependencies = {"saadparwaiz1/cmp_luasnip"}, event = "InsertEnter" },
   { "onsails/lspkind-nvim", event = "InsertEnter" },
