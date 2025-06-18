@@ -62,7 +62,7 @@ return {
     config = function() require("telescope") end,
   },
   {
-    "jose-elias-alvarez/null-ls.nvim", event = "BufWritePre",
+    "nvimtools/none-ls.nvim", event = "BufWritePre",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function() require("formatting") end,
   },
