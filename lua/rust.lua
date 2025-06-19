@@ -46,5 +46,4 @@ local opts = {
 }
 
 rust_tools.setup(opts)
-vim.notify('Rust-tools configuration loaded', vim.log.levels.INFO, {title = 'Nvim Plugins'})
 

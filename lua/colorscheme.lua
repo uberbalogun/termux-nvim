@@ -18,4 +18,3 @@ tokyonight.setup({
 })
 
 vim.cmd [[colorscheme tokyonight]]
---vim.notify('Tokyonight colorscheme applied', vim.log.levels.INFO, {title = 'Nvim Plugins'})

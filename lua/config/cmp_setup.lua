@@ -1,6 +1,5 @@
 -- ~/.config/nvim/lua/cmp.lua
-local cmp_status_ok, cmp = pcall(require, "cmp")
---vim.notify("Tried to require 'nvim-cmp'. Status: " .. tostring(cmp_status_ok) .. " Value: " .. vim.inspect(cmp), vim.log.levels.INFO)
+local cmp_status_ok, cmp = pcall(require, "nvim-cmp")
 if not cmp_status_ok then
   vim.notify("Plugin 'nvim-cmp' not found for setup.")
   return
@@ -138,6 +137,4 @@ cmp.setup.cmdline(':', {
 if luasnip_status_ok then
   -- Consider adding friendly-snippets or other snippet packs here
   -- For example: require("luasnip.loaders.from_vscode").lazy_load()
-  vim.notify("Luasnip is ready. Consider adding snippet sources.", vim.log.levels.INFO)
 end
---vim.notify('nvim-cmp configuration loaded', vim.log.levels.INFO, {title = 'Nvim Plugins'})

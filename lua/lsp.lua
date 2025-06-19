@@ -75,7 +75,6 @@ end
 
 M.capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-vim.notify('LSP base configuration loaded', vim.log.levels.INFO, {title = 'Nvim Config'})
 return M
 
 

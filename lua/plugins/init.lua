@@ -12,7 +12,6 @@ return {
       local status_ok, devicons = pcall(require, "nvim-web-devicons")
       if status_ok then
         devicons.setup{ default = true }
-        vim.notify('nvim-web-devicons setup complete via plugin spec.', vim.log.levels.INFO, {title = 'Nvim Plugins'})
       else
         vim.notify('nvim-web-devicons not found for setup in its plugin spec.', vim.log.levels.WARN, {title = 'Nvim Plugins'})
       end

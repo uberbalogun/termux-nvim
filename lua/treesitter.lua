@@ -35,5 +35,3 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevelstart = 99 -- Start with all folds open
 vim.opt.foldenable = true   -- Enable folding
 
-vim.notify('Treesitter configuration (including folding) loaded', vim.log.levels.INFO, {title = 'Nvim Plugins'})
-

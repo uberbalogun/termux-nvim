@@ -1,7 +1,7 @@
 -- ~/.config/nvim/lua/formatting.lua
 local null_ls_status_ok, null_ls = pcall(require, "null-ls")
 if not null_ls_status_ok then
-  vim.notify("Plugin 'null-ls.nvim' not found for formatting setup.")
+  vim.notify("Plugin 'none-ls.nvim' not found for formatting setup.")
   return
 end
 
@@ -53,6 +53,4 @@ null_ls.setup({
   on_attach = on_attach,
   root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".git", "nvim/.git", ".hg", ".svn"),
 })
-
---vim.notify('Null-ls configuration loaded', vim.log.levels.INFO, {title = 'Nvim Plugins'})
 
