@@ -54,6 +54,10 @@ return {
     config = function() require("config.cmp_setup") end,
   },
   {
+    "rafamadriz/friendly-snippets",
+    lazy = false,
+  },
+  {
     "nvim-telescope/telescope.nvim", cmd = "Telescope",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function() require("telescope") end,

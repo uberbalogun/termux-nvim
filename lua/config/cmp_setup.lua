@@ -136,5 +136,5 @@ cmp.setup.cmdline(':', {
 
 if luasnip_status_ok then
   -- Consider adding friendly-snippets or other snippet packs here
-  -- For example: require("luasnip.loaders.from_vscode").lazy_load()
+  require("luasnip.loaders.from_vscode").lazy_load()
 end
