@@ -23,7 +23,12 @@ local opts = {
       show_parameter_hints = true,
       parameter_hints_prefix = "燈 ", 
       other_hints_prefix = "=> ",
-      only_current_line = false, 
+      only_current_line = false,
+      max_len_align = false,
+      max_len_align_padding = 1,
+      right_align = false,
+      right_align_padding = 7,
+      highlight = "Comment",
     },
   },
   server = {
@@ -39,6 +44,16 @@ local opts = {
         },
         procMacro = {
           enable = true,
+        },
+        inlayHints = {
+          typeHints = { enable = true },
+          closureReturnTypeHints = { enable = "with_block" },
+          bindingModeHints = { enable = true },
+          chainingHints = { enable = true },
+          parameterHints = { enable = true },
+        },
+        check = {
+          command = "clippy",
         },
       },
     },

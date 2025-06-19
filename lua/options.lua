@@ -38,6 +38,7 @@ opt.updatetime = 250
 opt.timeoutlen = 500
 opt.ttimeoutlen = 300
 opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 opt.showmode = false
 opt.cmdheight = 1

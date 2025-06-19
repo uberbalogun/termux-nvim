@@ -95,7 +95,7 @@ cmp.setup({
     fields = {'abbr', 'kind', 'menu'},
     format = lspkind_status_ok and lspkind.cmp_format({
       mode = 'symbol_text', 
-      maxwidth = 50,
+      maxwidth = 100, -- Changed from 50
       ellipsis_char = '...',
       symbol_map = { 
         Text = "", Method = "", Function = "", Constructor = "",
