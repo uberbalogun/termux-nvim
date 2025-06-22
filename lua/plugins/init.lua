@@ -50,7 +50,7 @@ return {
   },
   {
     "rafamadriz/friendly-snippets",
-    lazy = false, 
+    lazy = false,
   },
   {
     "nvim-telescope/telescope.nvim", cmd = "Telescope",
