@@ -29,12 +29,14 @@ local on_attach = function(client, bufnr)
       group = "NullLsFormat",
       buffer = bufnr,
       callback = function()
+        local view = vim.fn.winsaveview()
         vim.lsp.buf.format({
           bufnr = bufnr,
           filter = function(c) return c.name == "null-ls" end,
           async = false, 
           timeout_ms = 5000, 
         })
+        vim.fn.winrestview(view)
       end,
       desc = "Format file with null-ls before saving",
     })
@@ -53,3 +55,4 @@ null_ls.setup({
   on_attach = on_attach,
   root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".git", "nvim/.git", ".hg", ".svn"),
 })
+
