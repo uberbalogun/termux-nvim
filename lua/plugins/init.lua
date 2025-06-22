@@ -39,11 +39,6 @@ return {
     config = function() require("lsp") end,
   },
   {
-    "simrat39/rust-tools.nvim", ft = { "rust" },
-    dependencies = { "neovim/nvim-lspconfig", "nvim-lua/plenary.nvim" },
-    config = function() require("rust") end,
-  },
-  {
     "hrsh7th/nvim-cmp",
     lazy = false,
     dependencies = {
@@ -55,7 +50,7 @@ return {
   },
   {
     "rafamadriz/friendly-snippets",
-    lazy = false,
+    lazy = false, 
   },
   {
     "nvim-telescope/telescope.nvim", cmd = "Telescope",
