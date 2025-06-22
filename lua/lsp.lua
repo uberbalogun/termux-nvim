@@ -61,7 +61,9 @@ M.on_attach = function(client, bufnr)
       group = "LspFormat",
       buffer = bufnr,
       callback = function()
+        local view = vim.fn.winsaveview()
         vim.lsp.buf.format({ bufnr = bufnr, async = false, timeout_ms = 2000 })
+        vim.fn.winrestview(view)
       end,
       desc = "Format file before saving (LSP)",
     })
