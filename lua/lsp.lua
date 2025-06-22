@@ -1,13 +1,7 @@
 -- ~/.config/nvim/lua/lsp.lua
-require('lspconfig').rust_analyzer.setup {                   cmd = { "rustup", "run", "stable", "rust-analyzer" },      settings = {
-    ["rust-analyzer"] = {                                        checkOnSave = {
-        command = "clippy",
-      },
-    },
-  },
-}
 vim.api.nvim_create_augroup("LspFormat", { clear = true })
-local M = {} -- Module to hold settings to be returned/used by other modules                                          
+local M = {} -- Module to hold settings to be returned/used by other modules
+
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
@@ -16,16 +10,16 @@ end
 
 vim.diagnostic.config({
     virtual_text = {
-        prefix = '●',
+        prefix = '●', 
         spacing = 4,
-        source = "if_many",
+        source = "if_many", 
     },
     signs = true,
     underline = true,
     update_in_insert = false,
     severity_sort = true,
     float = {
-        source = "always",
+        source = "always", 
         border = "rounded",
         focusable = false,
         style = "minimal",
@@ -60,7 +54,7 @@ M.on_attach = function(client, bufnr)
   map('n', '<space>rn', vim.lsp.buf.rename, "Rename")
   map('n', '<space>ca', vim.lsp.buf.code_action, "Code Action")
   map('n', 'gr', vim.lsp.buf.references, "Go to References")
-
+  
   if client.supports_method("textDocument/formatting") then
     vim.api.nvim_clear_autocmds({ group = "LspFormat", buffer = bufnr })
     vim.api.nvim_create_autocmd("BufWritePre", {
@@ -81,4 +75,38 @@ end
 
 M.capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
+local lspconfig = require('lspconfig')
+
+lspconfig.rust_analyzer.setup {
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+  settings = {
+    ["rust-analyzer"] = {
+      cargo = {
+        allFeatures = true,
+        loadOutDirsFromCheck = true,
+        runBuildScripts = true,
+      },
+      procMacro = {
+        enable = true,
+      },
+      checkOnSave = true,
+      check = {
+        command = "clippy",
+      },
+      inlayHints = {
+        typeHints = { enable = true },
+        closureReturnTypeHints = { enable = "with_block" },
+        bindingModeHints = { enable = true },
+        chainingHints = { enable = true },
+        parameterHints = { enable = true },
+        maxLength = 35,
+        renderColons = true,
+      }
+    }
+  }
+}
+
 return M
+
+
