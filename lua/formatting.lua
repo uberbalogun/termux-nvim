@@ -53,4 +53,3 @@ null_ls.setup({
   on_attach = on_attach,
   root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".git", "nvim/.git", ".hg", ".svn"),
 })
-
