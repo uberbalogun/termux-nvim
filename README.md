@@ -26,6 +26,29 @@ This is a Neovim configuration tailored for Rust development on Android using Te
 
 ## Prerequisites
 
+### Important: Rust Setup on Termux (Recommended Workaround)
+
+While Termux provides a powerful environment, users might encounter difficulties setting up a stable Rust development workflow directly, particularly with `rustup` for managing Rust toolchains.
+
+**Recommended Workaround for Robust Rust Setup:**
+
+If you face issues with `rustup` or general stability for Rust development directly within Termux, a more reliable approach is to:
+
+1.  **Install Fedora Linux (CLI) on Termux via Andronix:**
+    *   Andronix allows you to install various Linux distributions within Termux. Fedora is a good choice for development.
+    *   Follow the instructions provided by Andronix to get Fedora CLI running.
+2.  **Set up Rust and Neovim within Fedora:**
+    *   Once inside the Fedora environment (e.g., by running `./start-fedora.sh` or similar), proceed with a fresh installation of:
+        *   Rust (using the standard `rustup` method: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`).
+        *   Neovim (e.g., by downloading the AppImage, using a package manager like `dnf`, or building from source).
+        *   All other necessary development tools and dependencies as listed in the "Prerequisites" section, but using Fedora's package manager (`dnf`).
+3.  **Clone this Neovim Configuration:**
+    *   Clone this Neovim configuration into `~/.config/nvim` *within the Fedora environment*.
+
+This method provides a more standard and stable Linux environment for Rust development, bypassing potential Termux-specific compatibility issues with toolchains and build systems. All subsequent development work would then happen inside this Fedora chroot/proot environment.
+
+---
+
 1.  **Termux**: Install from F-Droid for the latest version.
 2.  **Neovim**: Install the latest version in Termux:
     ```bash
