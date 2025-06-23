@@ -26,12 +26,38 @@ vim.diagnostic.config({
     }
 })
 
--- Global mappings for LSP actions (can be moved to a keymappings.lua later)
+-- Global mappings for LSP actions
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, { desc = "Open diagnostics float" })
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { desc = "Open diagnostics in loclist" })
 
+-- Inlay hints toggle function
+local inlay_hints_enabled = true
+function M.toggle_inlay_hints()
+  inlay_hints_enabled = not inlay_hints_enabled
+  local new_config = {
+    typeHints = { enable = inlay_hints_enabled },
+    closureReturnTypeHints = { enable = inlay_hints_enabled and "with_block" or false },
+    bindingModeHints = { enable = inlay_hints_enabled },
+    chainingHints = { enable = inlay_hints_enabled },
+    parameterHints = { enable = inlay_hints_enabled },
+    maxLength = 35,
+    renderColons = true,
+  }
+  -- Update rust-analyzer settings
+  local clients = vim.lsp.get_active_clients({ name = "rust_analyzer", bufnr = 0 })
+  for _, client in ipairs(clients) do
+    client.config.settings["rust-analyzer"].inlayHints = new_config
+    client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+  end
+  -- Toggle Neovim's inlay hints rendering
+  vim.lsp.inlay_hint.enable(inlay_hints_enabled, { bufnr = 0 })
+  vim.notify("Inlay hints " .. (inlay_hints_enabled and "enabled" or "disabled"))
+end
+
+-- Keymap for toggling inlay hints
+vim.keymap.set('n', '<space>y', M.toggle_inlay_hints, { desc = "Toggle Inlay Hints" })
 
 M.on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -72,10 +98,17 @@ M.on_attach = function(client, bufnr)
   if client.name == "rust_analyzer" then
     map('n', '<leader>rr', '<Cmd>RustRunnables<CR>', "Rust Runnables")
     map('n', '<leader>re', '<Cmd>RustExpandMacro<CR>', "Rust Expand Macro")
+    -- Enable inlay hints for rust_analyzer
+    if client.server_capabilities.inlayHintProvider then
+      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    end
   end
 end
 
 M.capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+-- Set highlight group for inlay hints to appear as gray virtual text
+vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#666666", italic = true })
 
 local lspconfig = require('lspconfig')
 
@@ -97,11 +130,11 @@ lspconfig.rust_analyzer.setup {
         command = "clippy",
       },
       inlayHints = {
-        typeHints = { enable = true },
-        closureReturnTypeHints = { enable = "with_block" },
-        bindingModeHints = { enable = true },
-        chainingHints = { enable = true },
-        parameterHints = { enable = true },
+        typeHints = { enable = inlay_hints_enabled },
+        closureReturnTypeHints = { enable = inlay_hints_enabled and "with_block" or false },
+        bindingModeHints = { enable = inlay_hints_enabled },
+        chainingHints = { enable = inlay_hints_enabled },
+        parameterHints = { enable = inlay_hints_enabled },
         maxLength = 35,
         renderColons = true,
       }
@@ -110,5 +143,3 @@ lspconfig.rust_analyzer.setup {
 }
 
 return M
-
-

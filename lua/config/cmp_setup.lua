@@ -87,6 +87,7 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
+    { name = 'codeium' }, -- Added Codeium source
     { name = 'luasnip' },
     { name = 'buffer', keyword_length = 3 },
     { name = 'path' },
@@ -95,7 +96,7 @@ cmp.setup({
     fields = {'abbr', 'kind', 'menu'},
     format = lspkind_status_ok and lspkind.cmp_format({
       mode = 'symbol_text', 
-      maxwidth = 100, -- Changed from 50
+      maxwidth = 100,
       ellipsis_char = '...',
       symbol_map = { 
         Text = "", Method = "", Function = "", Constructor = "",
@@ -104,10 +105,11 @@ cmp.setup({
         Enum = "", Keyword = "", Snippet = "", Color = "",
         File = "", Reference = "", Folder = "", EnumMember = "",
         Constant = "", Struct = "", Event = "", Operator = "",
-        TypeParameter = ""
+        TypeParameter = "",
+        Codeium = "", -- Added Codeium symbol
       }
     }) or function(entry, vim_item) 
-      vim_item.kind = string.format('%s', vim_item.kind) 
+      vim_item.kind = string.format('%s (%s)', vim_item.kind, entry.source.name) -- Show source name if lspkind fails
       return vim_item
     end,
   },

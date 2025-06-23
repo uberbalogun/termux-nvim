@@ -67,4 +67,18 @@ return {
     },
     config = function() require("formatting") end,
   },
+  {
+    "Exafunction/codeium.nvim",
+    event = "BufReadPre", -- Or "VeryLazy" if preferred, but BufReadPre ensures it's ready early
+    dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
+    config = function()
+      require("codeium").setup({
+        -- We want to use Codeium with nvim-cmp, not its own ghost text
+        enable_cmp_source = true,
+        virtual_text = {
+          enabled = false,
+        },
+      })
+    end,
+  },
 }
