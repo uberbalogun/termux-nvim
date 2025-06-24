@@ -1,5 +1,5 @@
 -- ~/.config/nvim/lua/cmp.lua
-local cmp_status_ok, cmp = pcall(require, "nvim-cmp")
+local cmp_status_ok, cmp = pcall(require, "cmp")
 if not cmp_status_ok then
   vim.notify("Plugin 'nvim-cmp' not found for setup.")
   return
