@@ -1,0 +1,54 @@
+-- ~/.config/nvim/lua/formatting.lua
+local null_ls = require("null-ls")
+
+local b = null_ls.builtins
+
+local sources = {
+  b.formatting.stylua.with({
+    extra_args = { "--config-path", vim.fn.stdpath("config") .. "/stylua.toml" },
+  }),
+  b.diagnostics.luacheck.with({
+    extra_args = { "--globals", "vim", "_G" },
+  }),
+  b.formatting.shfmt,
+  b.diagnostics.shellcheck,
+  b.formatting.prettier.with({
+    filetypes = { "markdown", "json", "yaml", "html", "css", "javascript", "typescript" },
+    prefer_local = "node_modules/.bin",
+  }),
+}
+
+local on_attach = function(client, bufnr)
+  if client.server_capabilities.documentFormattingProvider then
+    vim.api.nvim_clear_autocmds({ group = "NullLsFormat", buffer = bufnr })
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = "NullLsFormat",
+      buffer = bufnr,
+      callback = function()
+        local view = vim.fn.winsaveview()
+        vim.lsp.buf.format({
+          bufnr = bufnr,
+          filter = function(c) return c.name == "null-ls" end,
+          async = false,
+          timeout_ms = 5000,
+        })
+        vim.fn.winrestview(view)
+      end,
+      desc = "Format file with null-ls before saving",
+    })
+  end
+
+  if client.server_capabilities.documentRangeFormattingProvider then
+    vim.keymap.set("x", "<leader>lf", function()
+      vim.lsp.buf.format({ bufnr = bufnr, filter = function(c) return c.name == "null-ls" end })
+    end, { buffer = bufnr, noremap = true, silent = true, desc = "Format selection (null-ls)" })
+  end
+end
+
+null_ls.setup({
+  debug = false,
+  sources = sources,
+  on_attach = on_attach,
+  root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".git", "nvim/.git", ".hg", ".svn"),
+})
+
