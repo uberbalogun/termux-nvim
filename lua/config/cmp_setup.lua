@@ -87,7 +87,7 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'codeium' }, -- Added Codeium source
+    { name = 'fittencode' }, -- Added Fittencode source
     { name = 'luasnip' },
     { name = 'buffer', keyword_length = 3 },
     { name = 'path' },
@@ -106,7 +106,7 @@ cmp.setup({
         File = "", Reference = "", Folder = "", EnumMember = "",
         Constant = "", Struct = "", Event = "", Operator = "",
         TypeParameter = "",
-        Codeium = "", -- Added Codeium symbol
+        FittenCode = "", -- Added FittenCode symbol
       }
     }) or function(entry, vim_item) 
       vim_item.kind = string.format('%s (%s)', vim_item.kind, entry.source.name) -- Show source name if lspkind fails

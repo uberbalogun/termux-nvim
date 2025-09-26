@@ -111,9 +111,8 @@ return {
     end,
   },
   {
-    "neovim/nvim-lspconfig",
+    "hrsh7th/cmp-nvim-lsp",
     event = "BufReadPre",
-    dependencies = { "hrsh7th/cmp-nvim-lsp" },
     config = function()
       require("lsp")
     end,
@@ -154,17 +153,43 @@ return {
       require("formatting")
     end,
   },
+  -- FittenCode AI completion
   {
-    "Exafunction/codeium.nvim",
-    event = "BufReadPre", -- Or "VeryLazy" if preferred
-    dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
+    "luozhiya/fittencode.nvim",
     config = function()
-      require("codeium").setup({
-        enable_cmp_source = true,
-        virtual_text = {
-          enabled = false,
+      require("fittencode").setup({
+        completion_mode = "source", -- Integrate with nvim-cmp
+        use_default_keymaps = true, -- Use default keymaps
+        keymaps = {
+          inline = {
+            ["<TAB>"] = "accept_all_suggestions",
+            ["<C-Down>"] = "accept_line",
+            ["<C-Right>"] = "accept_word",
+            ["<C-Up>"] = "revoke_line",
+            ["<C-Left>"] = "revoke_word",
+            ["<A-\\>"] = "triggering_completion",
+          },
+          chat = {
+            ["q"] = "close",
+            ["[c"] = "goto_previous_conversation",
+            ["]c"] = "goto_next_conversation",
+            ["c"] = "copy_conversation",
+            ["C"] = "copy_all_conversations",
+            ["d"] = "delete_conversation",
+            ["D"] = "delete_all_conversations",
+          },
+        },
+        source_completion = {
+          enable = true,
+          engine = "cmp", -- Use nvim-cmp as the completion engine
+          trigger_chars = {}, -- Default trigger characters
+        },
+        log = {
+          level = vim.log.levels.WARN,
+          max_size = 10, -- Max log file size in MB
         },
       })
+      vim.opt.updatetime = 200 -- Improve performance as recommended
     end,
   },
   {
