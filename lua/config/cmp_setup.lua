@@ -106,7 +106,8 @@ cmp.setup({
         File = "", Reference = "", Folder = "", EnumMember = "",
         Constant = "", Struct = "", Event = "", Operator = "",
         TypeParameter = "",
-        FittenCode = "", -- Added FittenCode symbol
+        ittenCode = "", -- Added FittenCode symbol
+        FittenCode =   ""
       }
     }) or function(entry, vim_item) 
       vim_item.kind = string.format('%s (%s)', vim_item.kind, entry.source.name) -- Show source name if lspkind fails
