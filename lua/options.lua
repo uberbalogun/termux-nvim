@@ -4,6 +4,8 @@ local g = vim.g
 local fn = vim.fn
 
 opt.termguicolors = true
+-- Set before the colorscheme loads to avoid the E1568 background DSR probe
+opt.background = "dark" -- tokyonight "storm" is a dark scheme
 opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"
@@ -12,7 +14,8 @@ opt.scrolloff = 8
 opt.sidescrolloff = 8
 opt.wrap = true
 opt.foldmethod = 'expr'
-opt.foldexpr = 'nvim_treesitter#foldexpr()'
+opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+opt.foldlevelstart = 99 -- Start with all folds open
 opt.foldenable = true
 vim.keymap.set('n', '<leader>f', function()
   if vim.opt.foldenable:get() then

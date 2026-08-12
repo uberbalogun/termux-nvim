@@ -2,28 +2,30 @@
 vim.api.nvim_create_augroup("LspFormat", { clear = true })
 local M = {} -- Module to hold settings to be returned/used by other modules
 
+-- Define diagnostic signs
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
+-- Configure diagnostics
 vim.diagnostic.config({
-    virtual_text = {
-        prefix = '●', 
-        spacing = 4,
-        source = "if_many", 
-    },
-    signs = true,
-    underline = true,
-    update_in_insert = false,
-    severity_sort = true,
-    float = {
-        source = "always", 
-        border = "rounded",
-        focusable = false,
-        style = "minimal",
-    }
+  virtual_text = {
+    prefix = '●',
+    spacing = 4,
+    source = "if_many",
+  },
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  float = {
+    source = "always",
+    border = "rounded",
+    focusable = false,
+    style = "minimal",
+  }
 })
 
 -- Global mappings for LSP actions
@@ -51,6 +53,7 @@ end
 -- Keymap for toggling inlay hints
 vim.keymap.set('n', '<space>y', M.toggle_inlay_hints, { desc = "Toggle Inlay Hints" })
 
+-- On-attach function for LSP clients
 M.on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -72,8 +75,8 @@ M.on_attach = function(client, bufnr)
   map('n', '<space>rn', vim.lsp.buf.rename, "Rename")
   map('n', '<space>ca', vim.lsp.buf.code_action, "Code Action")
   map('n', 'gr', vim.lsp.buf.references, "Go to References")
-  
-  if client:supports_method("textDocument/formatting") then
+
+  if client.supports_method("textDocument/formatting") then
     vim.api.nvim_clear_autocmds({ group = "LspFormat", buffer = bufnr })
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = "LspFormat",
@@ -93,41 +96,49 @@ M.on_attach = function(client, bufnr)
   end
 end
 
+-- Set LSP capabilities for nvim-cmp
 M.capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
--- Set highlight group for inlay hints to appear as gray virtual text
+-- Set highlight group for inlay hints
 vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#666666", italic = true })
 
-local lspconfig = require('lspconfig')
-
-lspconfig.rust_analyzer.setup {
-  on_attach = M.on_attach,
-  capabilities = M.capabilities,
-  settings = {
-    ["rust-analyzer"] = {
-      cargo = {
-        allFeatures = true,
-        loadOutDirsFromCheck = true,
-        runBuildScripts = true,
+-- Configure rust_analyzer using Neovim's native LSP client
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "rust",
+  callback = function()
+    vim.lsp.start({
+      name = "rust_analyzer",
+      cmd = { "rust-analyzer" },
+      root_dir = vim.fs.dirname(vim.fs.find({ "Cargo.toml", ".git" }, { upward = true })[1]),
+      capabilities = M.capabilities,
+      on_attach = M.on_attach,
+      settings = {
+        ["rust-analyzer"] = {
+          cargo = {
+            allFeatures = true,
+            loadOutDirsFromCheck = true,
+            runBuildScripts = true,
+          },
+          procMacro = {
+            enable = true,
+          },
+          checkOnSave = true,
+          check = {
+            command = "clippy",
+          },
+          inlayHints = {
+            typeHints = { enable = inlay_hints_enabled },
+            closureReturnTypeHints = { enable = inlay_hints_enabled and "with_block" or false },
+            bindingModeHints = { enable = inlay_hints_enabled },
+            chainingHints = { enable = inlay_hints_enabled },
+            parameterHints = { enable = inlay_hints_enabled },
+            maxLength = 35,
+            renderColons = true,
+          },
+        },
       },
-      procMacro = {
-        enable = true,
-      },
-      checkOnSave = true,
-      check = {
-        command = "clippy",
-      },
-      inlayHints = {
-        typeHints = { enable = inlay_hints_enabled },
-        closureReturnTypeHints = { enable = inlay_hints_enabled and "with_block" or false },
-        bindingModeHints = { enable = inlay_hints_enabled },
-        chainingHints = { enable = inlay_hints_enabled },
-        parameterHints = { enable = inlay_hints_enabled },
-        maxLength = 35,
-        renderColons = true,
-      }
-    }
-  }
-}
+    })
+  end,
+})
 
 return M

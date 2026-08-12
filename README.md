@@ -7,7 +7,7 @@ This is a Neovim configuration tailored for Rust development on Android using Te
 *   **Plugin Manager**: Uses **`folke/lazy.nvim`**.
 *   **Language Support**: Robust Rust support via `rust-tools.nvim` (integrating `rust-analyzer`).
 *   **Syntax Highlighting**: Provided by `nvim-treesitter` for various languages including Rust and Lua.
-*   **Autocompletion**: `nvim-cmp` with sources for LSP, snippets (`LuaSnip`), buffer, and path.
+*   **Autocompletion**: `nvim-cmp` with sources for LSP, snippets (`LuaSnip`), buffer, path, and Supermaven AI.
 *   **LSP Integration**: `neovim/nvim-lspconfig` for language server protocol support.
 *   **Formatting**: `jose-elias-alvarez/null-ls.nvim` for formatters and linters, configured with:
     *   `stylua` for Lua.

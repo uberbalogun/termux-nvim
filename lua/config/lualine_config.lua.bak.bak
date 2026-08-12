@@ -29,6 +29,15 @@ lualine.setup({
     lualine_b = { "branch", "diff" },
     lualine_c = { { "filename", path = 1, shorting_target = 40 } },
     lualine_x = {
+      {
+        function()
+          local emoji = { "🚫", "⏸️", "⌛️", "⚠️", "0️⃣", "✅" }
+          return "🅕" .. emoji[require("fittencode").get_current_status()]
+        end,
+        cond = function()
+          return package.loaded["fittencode"] and vim.fn.exists("*require('fittencode').get_current_status") == 1
+        end,
+      },
       "diagnostics",
       "encoding",
       "fileformat",

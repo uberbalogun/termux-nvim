@@ -104,16 +104,15 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false, -- the rewritten plugin (2025+) does not support lazy-loading
     build = ":TSUpdate",
-    event = { "BufReadPost", "BufNewFile", "VeryLazy" },
     config = function()
       require("treesitter")
     end,
   },
   {
-    "neovim/nvim-lspconfig",
+    "hrsh7th/cmp-nvim-lsp",
     event = "BufReadPre",
-    dependencies = { "hrsh7th/cmp-nvim-lsp" },
     config = function()
       require("lsp")
     end,
@@ -147,22 +146,23 @@ return {
     end,
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim", -- Maintained fork of the archived null-ls.nvim (module stays require("null-ls"))
     event = "BufWritePre",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("formatting")
     end,
   },
+  -- Supermaven AI completion (replaces FittenCode)
   {
-    "Exafunction/codeium.nvim",
-    event = "BufReadPre", -- Or "VeryLazy" if preferred
-    dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
+    "supermaven-inc/supermaven-nvim",
+    event = "InsertEnter",
     config = function()
-      require("codeium").setup({
-        enable_cmp_source = true,
-        virtual_text = {
-          enabled = false,
+      require("supermaven-nvim").setup({
+        keymaps = {
+          accept_suggestion = "<C-l>",
+          clear_suggestion = "<C-]>",
+          accept_word = "<C-j>",
         },
       })
     end,
