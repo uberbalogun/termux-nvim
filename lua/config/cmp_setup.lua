@@ -87,7 +87,7 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'fittencode' }, -- Added Fittencode source
+    { name = 'supermaven' }, -- Supermaven AI completion (registered by supermaven-nvim)
     { name = 'luasnip' },
     { name = 'buffer', keyword_length = 3 },
     { name = 'path' },
@@ -106,8 +106,7 @@ cmp.setup({
         File = "", Reference = "", Folder = "", EnumMember = "",
         Constant = "", Struct = "", Event = "", Operator = "",
         TypeParameter = "",
-        ittenCode = "", -- Added FittenCode symbol
-        FittenCode =   ""
+        Supermaven =   "" -- Supermaven AI icon
       }
     }) or function(entry, vim_item) 
       vim_item.kind = string.format('%s (%s)', vim_item.kind, entry.source.name) -- Show source name if lspkind fails

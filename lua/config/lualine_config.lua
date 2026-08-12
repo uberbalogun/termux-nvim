@@ -29,26 +29,6 @@ lualine.setup({
     lualine_b = { "branch", "diff" },
     lualine_c = { { "filename", path = 1, shorting_target = 40 } },
     lualine_x = {
-      {
-        function()
-          local ok, fittencode = pcall(require, "fittencode")
-          if not ok then
-            vim.notify("FittenCode module not loaded", vim.log.levels.WARN)
-            return ""
-          end
-          local status = fittencode.get_current_status()
-          local emoji = { "🚫", "⏸️", "⌛️", "⚠️", "0️⃣", "✅" }
-          local emoji_index = tonumber(status) or 1  -- Default to index 1 if invalid
-          if emoji_index < 1 or emoji_index > #emoji then
-            emoji_index = 1  -- Fallback to first emoji
-          end
-          return "🅕" .. emoji[emoji_index]
-        end,
-        cond = function()
-          local ok, fittencode = pcall(require, "fittencode")
-          return ok and type(fittencode.get_current_status) == "function"
-        end,
-      },
       "diagnostics",
       "encoding",
       "fileformat",

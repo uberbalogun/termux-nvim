@@ -104,8 +104,8 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false, -- the rewritten plugin (2025+) does not support lazy-loading
     build = ":TSUpdate",
-    event = { "BufReadPost", "BufNewFile", "VeryLazy" },
     config = function()
       require("treesitter")
     end,
@@ -146,50 +146,25 @@ return {
     end,
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim", -- Maintained fork of the archived null-ls.nvim (module stays require("null-ls"))
     event = "BufWritePre",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("formatting")
     end,
   },
-  -- FittenCode AI completion
+  -- Supermaven AI completion (replaces FittenCode)
   {
-    "luozhiya/fittencode.nvim",
+    "supermaven-inc/supermaven-nvim",
+    event = "InsertEnter",
     config = function()
-      require("fittencode").setup({
-        completion_mode = "source", -- Integrate with nvim-cmp
-        use_default_keymaps = true, -- Use default keymaps
+      require("supermaven-nvim").setup({
         keymaps = {
-          inline = {
-            ["<TAB>"] = "accept_all_suggestions",
-            ["<C-Down>"] = "accept_line",
-            ["<C-Right>"] = "accept_word",
-            ["<C-Up>"] = "revoke_line",
-            ["<C-Left>"] = "revoke_word",
-            ["<A-\\>"] = "triggering_completion",
-          },
-          chat = {
-            ["q"] = "close",
-            ["[c"] = "goto_previous_conversation",
-            ["]c"] = "goto_next_conversation",
-            ["c"] = "copy_conversation",
-            ["C"] = "copy_all_conversations",
-            ["d"] = "delete_conversation",
-            ["D"] = "delete_all_conversations",
-          },
-        },
-        source_completion = {
-          enable = true,
-          engine = "cmp", -- Use nvim-cmp as the completion engine
-          trigger_chars = {}, -- Default trigger characters
-        },
-        log = {
-          level = vim.log.levels.WARN,
-          max_size = 10, -- Max log file size in MB
+          accept_suggestion = "<C-l>",
+          clear_suggestion = "<C-]>",
+          accept_word = "<C-j>",
         },
       })
-      vim.opt.updatetime = 200 -- Improve performance as recommended
     end,
   },
   {
