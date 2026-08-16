@@ -39,7 +39,7 @@ local inlay_hints_enabled = true
 function M.toggle_inlay_hints()
   inlay_hints_enabled = not inlay_hints_enabled
   for _, client in ipairs(vim.lsp.get_active_clients()) do
-    if client.supports_method("textDocument/inlayHint") then
+    if client:supports_method("textDocument/inlayHint") then
       if inlay_hints_enabled then
         vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
       else
@@ -76,7 +76,7 @@ M.on_attach = function(client, bufnr)
   map('n', '<space>ca', vim.lsp.buf.code_action, "Code Action")
   map('n', 'gr', vim.lsp.buf.references, "Go to References")
 
-  if client.supports_method("textDocument/formatting") then
+  if client:supports_method("textDocument/formatting") then
     vim.api.nvim_clear_autocmds({ group = "LspFormat", buffer = bufnr })
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = "LspFormat",
